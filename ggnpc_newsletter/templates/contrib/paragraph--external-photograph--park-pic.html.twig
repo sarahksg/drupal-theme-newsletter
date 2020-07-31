@@ -1,0 +1,34 @@
+{% set photograph_url =  content.field_item_link.0['#url']|render|striptags|trim %}
+
+{% set photograph_title = content.field_item_link.0['#title'] %}
+{# Is there a credit? #} 
+{% if content.field_photo_credit|length %}  
+    {% set photograph_credit = content.field_photo_credit|render|striptags|trim %}
+   <!-- credit found -->
+{% endif %}
+
+                      <!-- PARK PIC : BEGIN -->
+                        <tr>
+                            <td>
+                                <img src="{{photograph_url}}" alt="{{photograph_title}}" height="400" width="600" border="0" style="display: block;" class="fluid">
+                            </td>
+                        </tr>
+                        <!-- Single Fluid Image, No Crop : END -->
+
+                        <!--  Full Width, Fluid Column : BEGIN -->
+                        <tr>
+                            <td style="">
+                                <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" bgcolor="#AEB236">
+                                    <tr>
+                                        <td style="padding: 30px;  font-size: 16px; line-height: 22px; color: #ffffff; font-family: 'Slabo 13px', serif;" align="center">
+                                            <img src="http://staff.parksconservancy.org/sites/default/files/images/camera.png" alt="camera" width="55">
+                                            <h2 align="center" style="text-align: center; letter-spacing: 2px;">PARK PIC OF THE WEEK</h2>
+                                            <hr style="width: 75%; height: 1px; color: #ffffff; background-color: #ffffff; opacity: .8; border: none;">
+                                            <p style="font-size: .8em">Photo by: {{photograph_credit}}<br>
+                                                <em>{{photograph_title}}</em></p>
+                                         </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- PARK PIC Full Width, Fluid Column : END -->

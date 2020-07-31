@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the GGNPC newsletters theme.
+ */
+
+//use Drupal\Component\Utility\Html;
+
+/**
+ * Implements template_preprocess_links().
+ */
+
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function ggnpc_newsletter_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    $content_type = $node->bundle();
+    $suggestions[] = 'page__'.$content_type;
+  }
+}
+
+
+/**
+ * Implements THEME_theme_suggestions_html_alter().
+ */
+function ggnpc_newsletter_theme_suggestions_html_alter(&$suggestions, $vars, $hook) {
+
+  // Check to see if you are on a node.
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+
+   // $content_type = $node->bundle();
+    $content_type = $node->getType();
+   // Get the node type.
+    //$type = $node->getType();
+    //
+    // Create the theme hook suggestions.
+    $suggestions[] = 'html__' .  $content_type;
+    $suggestions[] = 'html__node_' .  $content_type;
+  }
+}
+
+/**
+ * Implements THEME_theme_suggestions_html_alter().
+ */
+function ggnpc_newsletter_theme_suggestions_node_alter(&$suggestions, $vars, $hook) {
+
+  // Check to see if you are on a node.
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+
+   // $content_type = $node->bundle();
+    $content_type = $node->getType();
+   // Get the node type.
+    //$type = $node->getType();
+    //
+    // Create the theme hook suggestions.
+    $suggestions[] = 'node__' .  $content_type;
+   // $suggestions[] = 'html__node_' .  $content_type;
+  }
+}

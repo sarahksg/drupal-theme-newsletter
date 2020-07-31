@@ -1,0 +1,47 @@
+
+{% if content.field_image['#items'] %}
+  
+  {% set image_url = file_url(content.field_image['#items'].entity.uri.value) %}
+  {% set image_title = content.field_item_thumbnail['#items'].alt %}
+
+  
+
+<!--
+-- set thumbnail_image_url = thumbnail_image|merge({'#image_style': 'Thumbnail_133'}) --
+here is the thumbnail image url: {[thumbnail_image_url}}
+default image {-kint(content.field_item_thumbnail.default_image)-}
+paragraph.newsletter_item.field_item_thumbnail is the id 
+alt_field, title_field
+
+uri and title for the field_item_link
+
+<!--URL?? {{ file_url(content.field_image['#items'].entity.uri.value) }}-->
+
+
+
+     <!-- PARK PIC Full Width, Fluid Column : BEGIN -->
+                        <tr>
+                            <td>
+                                <img src="{{image_url}}" alt="Park Pic" height="400" width="600" border="0" style="display: block;" class="fluid">
+                            </td>
+                        </tr>
+
+                  
+                        <tr>
+                            <td style="">
+                                <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" bgcolor="#AEB236">
+                                    <tr>
+                                        <td style="padding: 30px;  font-size: 16px; line-height: 22px; color: #ffffff; font-family: 'Slabo 13px', serif;"  align="center">
+                                            <div align="center"><img src="http://staff.parksconservancy.org/sites/default/files/images/camera.png" alt="camera" width="55"  height="49" ></div>
+                                            <h2 align="center" style="text-align: center; letter-spacing: 2px;">PARK PIC OF THE WEEK</h2>
+                                            <hr style="width: 75%; height: 1px; color: #ffffff; background-color: #ffffff; opacity: .8; border: none;">
+                                            <p style="font-size: .8em">Photo by {{content.field_photo_credit}} <br>
+                                                <em>{{content.field_description}} </em></p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- PARK PIC Full Width, Fluid Column : END -->
+
+{% endif %}

@@ -1,0 +1,334 @@
+{#
+/**
+ * @file
+ * Default theme implementation for the basic structure of a single Drupal page.
+ *
+ * Variables:
+ * - logged_in: A flag indicating if user is logged in.
+ * - root_path: The root path of the current page (e.g., node, admin, user).
+ * - node_type: The content type for the current node, if the page is a node.
+ * - head_title: List of text elements that make up the head_title variable.
+ *   May contain or more of the following:
+ *   - title: The title of the page.
+ *   - name: The name of the site.
+ *   - slogan: The slogan of the site.
+ * - page_top: Initial rendered markup. This should be printed before 'page'.
+ * - page: The rendered page markup.
+ * - page_bottom: Closing rendered markup. This variable should be printed after
+ *   'page'.
+ * - db_offline: A flag indicating if the database is offline.
+ * - placeholder_token: The token for generating head, css, js and js-bottom
+ *   placeholders.
+ *
+ * @see template_preprocess_html()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+set body_classes = [
+logged_in ? 'page--logged-in',
+not root_path ? 'page--front' : 'path--' ~ root_path|clean_class,
+node_type ? 'page--' ~ node_type|clean_class,
+db_offline ? 'db-offline',
+]
+%}
+<!DOCTYPE html>
+<html{{ html_attributes }}>
+<head>
+  <head-placeholder token="{{ placeholder_token|raw }}">
+    <title>{{ head_title|safe_join(' | ') }}</title>
+    
+      <meta property="og:title" content="*|MC:SUBJECT|*">
+
+        <title>*|MC:SUBJECT|*</title>
+         <link href="https://fonts.googleapis.com/css?family=Lato|Open+Sans+Condensed:300|Slabo+13px" rel="stylesheet">   <style type="text/css">
+            /* @import 'https://fonts.googleapis.com/css?family=Lato|Open+Sans+Condensed:300|Slabo+13px'; */
+            /* ensure that clients don't add any padding or spaces around the email design and allow us to style emails for the entire width of the preview pane */
+            body,
+            #bodyTable {
+                height:100% !important;
+                width:100% !important;
+                margin:0;
+                padding:0;
+            }
+
+            /* Ensures Webkit- and Windows-based clients don't automatically resize the email text. */
+            body,
+            table,
+            td,
+            p,
+            a,
+            li,
+            blockquote {
+                -ms-text-size-adjust:100%;
+                -webkit-text-size-adjust:100%;
+                font-family: 'Slabo 13px', serif;
+            }
+
+            /* Forces Yahoo! to display emails at full width */
+            .thread-item.expanded .thread-body .body, .msg-body {
+                width: 100% !important;
+                display: block !important;
+            }
+
+            /* Forces Hotmail to display emails at full width */
+            .ReadMsgBody,
+            .ExternalClass {
+                width: 100%;
+                background-color: #f4f4f4;
+            }
+
+            /* Forces Hotmail to display normal line spacing. */
+            .ExternalClass,
+            .ExternalClass p,
+            .ExternalClass span,
+            .ExternalClass font,
+            .ExternalClass td,
+            .ExternalClass div {
+                line-height:100%;
+            }
+
+            /* Resolves webkit padding issue. */
+            table {
+                border-spacing:0;
+            }
+
+            /* Resolves the Outlook 2007, 2010, and Gmail td padding issue, and removes spacing around tables that Outlook adds. */
+            table,
+            td {
+                border-collapse:collapse;
+                mso-table-lspace:0pt;
+                mso-table-rspace:0pt;
+            }
+
+            /* Corrects the way Internet Explorer renders resized images in emails. */
+            img {
+                -ms-interpolation-mode: bicubic;
+            }
+
+            /* Ensures images don't have borders or text-decorations applied to them by default. */
+            img,
+            a img {
+                border:0;
+                outline:none;
+                text-decoration:none;        
+            }
+            a {
+                color: #ffffff;
+            }
+            /* Styles Yahoo's auto-sensing link color and border */
+            .yshortcuts a {
+                border-bottom: none !important;
+            }
+
+            /* Styles the tel URL scheme */
+            a[href^=tel],
+            .mobile_link,
+            .mobile_link a {
+                color:#222222 !important;
+                text-decoration: underline !Important;
+            }
+            h1, h2 {
+                letter-spacing: 2px;
+            }
+            h3, h3 a {
+                font-family: 'Open Sans Condensed', sans-serif;
+                letter-spacing: 1px;
+            }
+            h4, h5 {
+                font-family: 'Lato', sans-serif;
+                letter-spacing: 1px;
+            }
+            /* Media queries for when the viewport is smaller than the default email width but not too narrow. */
+            @media screen and (max-device-width: 600px), screen and (max-width: 600px) {
+
+                /* Constrains email width for small screens */
+                table[class="email-container"] {
+                    width: 100% !important;
+                }
+                /* Constrains tables for small screens */
+                table[class="fluid"] {
+                    width: 100% !important;
+                }
+
+                /* Forces images to resize to full width of their container */
+                img[class="fluid"],
+                img[class="force-col-center"] {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    height: auto !important;
+                }
+                /* And centers these ones */
+                img[class="force-col-center"] {
+                    margin: auto !important;
+                }
+
+                /* Forces table cells into rows */
+                td[class="force-col"],
+                td[class="force-col-center"] {
+                    display: block !important;
+                    width: 100% !important;
+                    clear: both;
+                }
+                /* And centers these ones */
+                td[class="force-col-center"] {
+                    text-align: center !important;
+                }
+
+                /* Forces table cells into rows */
+                /* Floats a previously stacked image to the left */
+                img[class="col-3-img-l"] {
+                    float: left;
+                    margin: 0 15px 15px 0;
+                }
+                /* Floats a previously stacked image to the right */
+                img[class="col-3-img-r"] {
+                    float: right;
+                    margin: 0 0 15px 15px;
+                }
+
+                /* Makes buttons full width */
+                table[class="button"] {
+                    width: 100% !important;
+                }
+
+            }
+
+            /* Media queries for when the viewport is narrow. */
+            /* Rules prefixed with 'hh-' (for 'handheld') repeat much of what's above, but these don't trigger until the smaller screen width. */
+            @media screen and (max-device-width: 425px), screen and (max-width: 425px) {
+
+                /* Helper only visible on handhelds. All styles are inline along with a `display:none`, which this class overrides */
+                div[class="hh-visible"] {
+                    display: block !important;
+                }
+
+                /* Center stuff */
+                div[class="hh-center"] {
+                    text-align: center;
+                    width: 100% !important;
+                }
+
+                /* Constrain tables for small screens */
+                table[class="hh-fluid"] {
+                    width: 100% !important;
+                }
+
+                /* Force images to resize to full width of their container */
+                img[class="hh-fluid"],
+                img[class="hh-force-col-center"] {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                    height: auto !important;
+                }
+                /* And center these ones */
+                img[class="hh-force-col-center"] {
+                    margin: auto !important;
+                }
+
+                /* Force table cells into rows */
+                td[class="hh-force-col"],
+                td[class="hh-force-col-center"] {
+                    display: block !important;
+                    width: 100% !important;
+                    clear: both;
+                }
+                /* And center these ones */
+                td[class="hh-force-col-center"] {
+                    text-align: center !important;
+                }
+
+                /* Stack the previously floated images */
+                img[class="col-3-img-l"],
+                img[class="col-3-img-r"] {
+                    float: none !important;
+                    margin: 15px auto !important;
+                    text-align: center !important;
+                }
+
+            }
+
+        </style>
+        </head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" bgcolor="#f4f4f4" style="margin:0; padding:0; -webkit-text-size-adjust:none; -ms-text-size-adjust:none;">
+    <div style="font-size: 1px; display: none !important; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all">*|MC:SUBJECT|*</div>
+ <table cellpadding="0" cellspacing="0" border="0" height="100%" width="100%" bgcolor="#ffffff" id="bodyTable" style="border-collapse: collapse;table-layout: fixed;margin:0 auto;"><tr><td>
+
+
+
+
+                    <!-- Email Container : BEGIN -->
+                    <!-- This table wraps the whole body email within its width (600px), sets the background color (white) and border (thin, gray, solid) -->
+                    <table border="0" width="600" cellpadding="0" cellspacing="0" align="center" bgcolor="#ffffff" style="border: 0px solid #e5e5e5;margin: auto; margin-top:10px" class="email-container">
+                        <!-- HEADER Full Width, Fluid Column : BEGIN -->
+                        <tr>
+                            <td style="">
+                                <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" bgcolor="#5DA5C1">
+                                    <tr>
+                                        <td style="padding: 10px;  font-size: 16px; color: #ffffff; font-family: 'Slabo 13px', serif;" align="center">
+                                            <div align="center" style="margin-top: 35px">  <a href="http://staff.parksconservancy.org/"><img src="http://staff.parksconservancy.org/sites/default/files/images/conservancylogo.png" alt="Parks Conservancy" height="87" width="110" border="0" style="display: block;margin: auto;"></a></div>
+                                            <h1 style="color:#ffffff; margin-left:10px; font-size: 36px; font-weight: normal; text-align: center; margin-bottom:0px; padding-bottom: 0px; letter-spacing: 2px;" align="center">CONSERVANCY COMMONS</h1>
+                                            <h5 style="color:#ffffff; margin-left:10px; font-size: 14px; font-weight: normal;  text-align: center; opacity: .8; margin: 0px; margin-bottom: 20px">YOUR WEEKLY DIGEST OF STAFF NEWS</h5>
+                                        </td>
+                                    </tr>
+                                    <tr bgcolor="#ffffff">
+                                        <td height="5" style="font-size: 0; line-height: 0;"> </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        
+                        <!-- HEADER Full Width, Fluid Column : END -->
+                        <tr>
+                            <td>
+{{ page }}
+
+            <!-- CONTACT INFO Full Width, Fluid Column : BEGIN -->
+                            </td>
+                        </tr>
+                        <tr>
+                <td style="">
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" bgcolor="#F98E1C">
+                        <tr>
+                            <td style="padding: 30px;  font-size: 16px; line-height: 22px; color: #ffffff; text-align: center; font-family: 'Slabo 13px', serif;">
+
+
+                                <h4 style="margin-bottom: 0px">COMMENTS, QUESTIONS OR SUGGESTIONS</h4>
+                                <p style="color: #ffffff; margin-top:0px"><em><a href="mailto:commons@parksconservancy.org" style="color: #ffffff; text-decoration: none">commons@parksconservancy.org</a></em></p>
+
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- CONTACT INFO Full Width, Fluid Column : END -->
+            <!-- CONTACT INFO Full Width, Fluid Column : BEGIN -->
+            <tr>
+                <td style="">
+                    <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" bgcolor="#5DA5C1">
+                        <tr>
+                            <td style="padding: 30px;  font-size: 16px; line-height: 22px; color: #ffffff; text-align: center">
+                                <div align="center"><a href="http://staff.parksconservancy.org"><img src="http://staff.parksconservancy.org/sites/default/files/images/parksforall.png" alt="Parks for All Forever" height="206" width="258" style="display: block;margin: auto;" border="0"></a></div>
+
+                                <div><!-- *|IFNOT:ARCHIVE_PAGE|* --><a href="*|ARCHIVE|*">view email in browser</a> | <!-- *|END:IF|* --><a href="*|UNSUB|*">unsubscribe from this list</a></div>
+                                <div mc:edit="monkeyrewards">
+                                    *|IF:REWARDS|* *|HTML:REWARDS|* *|END:IF|*
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- BOTTOM LOGO Full Width, Fluid Column : END -->
+
+
+
+        </table>
+        <!-- Email Container : END -->
+
+        
+
+    </td></tr></table>
+</body>
+</html>

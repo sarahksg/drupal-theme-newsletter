@@ -1,0 +1,87 @@
+{% set item_final_url =  content.field_item_link.0['#url']|render|striptags|trim %}
+{% set image_transparent = content.field_image_transparency|render|striptags|trim %}
+{# Are there any uploaded images? #}
+{% if content.field_item_thumbnail['#items'] %}
+    {% set thumbnail_background_color = '#ffffff' %}
+  {% set thumbnail_image_url = file_url(content.field_item_thumbnail['#items'].entity.uri.value) %}
+  {% set thumbnail_image_title = content.field_item_thumbnail['#items'].alt %}
+  {% set image_exists = 'yes' %}
+  
+{# Are there any links to images? #}
+{% elseif content.field_link_to_external_image.0['#url']|length %}
+    {% set thumbnail_background_color = '#ffffff' %}
+    {% set thumbnail_image_url = content.field_link_to_external_image.0['#url']|render|striptags|trim %}
+    {% set thumbnail_image_title = content.field_link_to_external_image.0['#title'] %}
+    {% set image_exists = 'yes' %}
+    
+{# There are no images #}
+{% else %}
+    {% set thumbnail_background_color = '' %}
+{% endif %}
+{# Is the image transparent? #}  
+{%if (image_exists == 'yes') and (image_transparent == 'yes') %} 
+    {% set thumbnail_background_color = '' %}
+{% endif %}  
+{# Is there custom link text? #} 
+{% if content.field_item_link.0['#title']|length %}
+    
+    {% set link_title = content.field_item_link.0['#title']|render %}
+ 
+{% else %}
+    {% set link_title  = 'LEARN MORE' %}
+ 
+{% endif %} 
+
+<!--
+-- set thumbnail_image_url = thumbnail_image|merge({'#image_style': 'Thumbnail_133'}) --
+here is the thumbnail image url: {[thumbnail_image_url}}
+default image {-kint(content.field_item_thumbnail.default_image)-}
+paragraph.newsletter_item.field_item_thumbnail is the id 
+alt_field, title_field
+
+uri and title for the field_item_link
+
+URL?? {{ file_url(content.field_item_thumbnail['#items'].entity.uri.value) }}
+items {- dump(content.field_item_thumbnail['#items'].entity) -}
+width{{content.field_item_thumbnail['#items'].width.value}}
+height{{content.field_item_thumbnail['#items'].entity.height}}
+title{{content.field_item_thumbnail['#items'].entity.title}}
+alt{{content.field_item_thumbnail['#items'].entity.alt}}
+-->
+<!--  begin  news item -->
+
+<table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" class="fluid">
+    <tr>
+      <td height="30" style="font-size: 0; line-height: 0;" class="empty-spacer"> </td>
+    </tr>
+     <tr>
+         <td valign="top" style="padding-right: 30px;" class="hh-force-col-center">
+{%if image_exists == 'yes' %} 
+    
+             <table border="0" width="100%" cellpadding="5" cellspacing="0" align="center" class="fluid" bgcolor="{{thumbnail_background_color}}"><tr><td>{% if item_final_url %}<a href="{{item_final_url}}">{% endif %}<img src="{{ thumbnail_image_url  }}" alt="{{ thumbnail_image_title }}"  height="133" width="133" border="0" style="display: block;margin: auto;" class="hh-force-col-center">{% if item_final_url %}</a>{% endif %}</td></tr></table>
+{% endif %}
+         </td>
+
+          <td valign="top" class="hh-force-col" width="100%" style="padding-left: 0;">
+               <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                   <tr>
+                      <td style="width:100%; font-size: 16px; line-height: 22px; color: #ffffff; text-align: left;">
+                         <div style="font-size: 0; line-height: 0; display: none; height: 30px;" class="hh-visible"></div>
+                           <!-- <h3 class="hh-center" style="margin-top: 0px;  font-family: 'Open Sans Condensed', sans-serif; letter-spacing: 1px; text-transform:uppercase;">{% if item_final_url %}<a href="{{item_final_url}}" style="text-decoration:none">{% endif %}{{ content.field_item_title}}{% if item_final_url %}</a>{% endif %}</h3> -->
+<h3 class="hh-center" style="margin-top: 0px;  font-family: 'Open Sans Condensed', sans-serif; letter-spacing: 1px; text-transform:uppercase;">{{ content.field_item_title}}</h3>
+{{content.field_item_description}}
+
+
+ {% if item_final_url %}<h4 style="letter-spacing: 1px"><a href="{{item_final_url}}" style="color: #ffffff; text-decoration: none"> {{link_title}}</a> ></h4>{% endif %}
+
+     </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="30" style="font-size: 0; line-height: 0;"> </td>
+                                                </tr>
+                                            </table>
+ <!-- end news item -->
+

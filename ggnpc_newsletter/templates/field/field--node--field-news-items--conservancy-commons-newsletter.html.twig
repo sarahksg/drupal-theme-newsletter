@@ -1,0 +1,27 @@
+  <!-- NEED TO KNOW/NEWS Full Width, Fluid Column : BEGIN -->
+                        <tr>
+                            <td style="">
+                                <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center" bgcolor="#EA5725">
+                                    <tr>
+                                        <td style="padding: 30px;  font-size: 16px; line-height: 22px; color: #ffffff; font-family: 'Slabo 13px', serif;">
+                                            <div align="center"><img src="http://staff.parksconservancy.org/sites/default/files/images/newspaper.png" alt="newspaper" height="49" width="55" style="display: block;margin: auto;"></div>
+                                            <h2 align="center" style="text-align: center; font-size: 24px; letter-spacing: 2px;">NEWS</h2>
+                                          
+{% for item in items %}
+  {% if multiple %}
+    
+                                            <hr style="width: 75%; height: 1px; color: #ffffff; background-color: #ffffff; opacity: .8; border: none;">
+    <div{{ item.attributes.addClass('field__item') }}>
+  {% endif %}
+    {{ item.content }}
+  {% if multiple %}
+    </div>
+
+  {% endif %}
+{% endfor %}{# empty Twig template #}
+      </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <!-- NEED TO KNOW Full Width, Fluid Column : END -->
